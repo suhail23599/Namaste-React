@@ -1,50 +1,109 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-
-//many apps will have one root and one render method.
-// root is the place where React runs.
-// {} in createElement is to pass props / attributes like id, class.
-const root = ReactDOM.createRoot(document.getElementById('root'))
-// render method will override whatever is already existing inside root , as a fallback people write not rendered
-
-
-// Passing multiple child inside a container
-// const heading = React.createElement('h1', {
-//   id: 'title',
-//   key: 'h1'
-// }, 'Heading')
-
-// const heading2 = React.createElement('h2', {
-//   id: 'title',
-//   key: 'h2'
-// }, 'heading 2')
-
-const heading = <h1 key="head">Namaste react</h1>  //JSX
-
-// JSX -> React.createElement -> Object -> HTML DOM
-// babel understands JSX and converts the code to React.createElement 
-
-const container = React.createElement('div', {
-  id: 'container'
-}, [heading])
-
-const DummyComponent = () => (
-  <div>
-    DummyComponent
-  </div>
-)
-const HeaderComponent = () => {
+const Title = () => {
   return (
-    <div>
-      <h1>header component</h1>
-      { heading }
-      <DummyComponent>
-        
-      </DummyComponent>
-      { DummyComponent() }
+    <h1 id="title">
+      Food Villa
+    </h1>
+  )
+}
+
+const Header = () => {
+  return (
+    <div className='header'>
+      <Title />
+       <div className='nav-items'>
+        <ul>
+          <li>Home</li>
+          <li>About</li>  
+          <li>Contact</li>
+          <li>Cart</li>
+        </ul>
+       </div>
     </div>
   )
 }
 
-root.render(<HeaderComponent></HeaderComponent>) 
+/**
+    * Header
+     -logo
+     -navbar
+     -cart
+    * Body
+      -Search
+      -Reastaurant list
+       -Resto card
+        -image
+        -name
+        -rating
+        -cuisines
+    * Footer
+       -reference links
+       -contacts
+       -copywrite
+*/
+
+const restaurantList = [
+  {
+    name: 'Bangalore kitchen',
+    food: 'Burger',
+    rating: '4.2',
+    cuisines: ['American', 'italian'],
+    imgUrl: 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
+  },
+  {
+    name: 'kitchen 1',
+    food: 'Biriyano',
+    rating: '4',
+    cuisines: ['Indian', 'italian'],
+    imgUrl: 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
+  }
+]
+
+const RestaurantCard = ({ imgUrl, food, cuisines, rating }) => {
+  return (
+    <div className='card'>
+      <img src={imgUrl}></img>
+      <h2>{food}</h2>
+      <h3>{cuisines.join(',')}</h3>
+      <h4>{rating}</h4>
+    </div>
+  )
+}
+
+const Body = () => {
+  return (
+    <div className="list">
+      Body
+      {
+        restaurantList.map ((rest,index) => {
+          return <RestaurantCard {...rest} key={index}></RestaurantCard>
+        })
+      }
+    </div>
+  )
+}
+
+const Footer = () => {
+  return (
+    <div>
+      Foter
+    </div>
+  )
+}
+
+const AppLayout = () => {
+  return (
+   <>
+      <></>
+      <Header></Header>
+      <Body></Body>
+      <Footer></Footer>
+   </>
+  )
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<AppLayout></AppLayout>)
